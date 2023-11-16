@@ -1,13 +1,3 @@
-body {
-    width: 85%;
-    padding: 10px;
-    margin: 0 auto;
-}
-
-h1 {
-    background-color: azure;
-}
-
 .status {
     display: inline-block;
     padding: 8px;
@@ -20,13 +10,20 @@ h1 {
 
 .title {
     font-weight: bold;
+    text-decoration: none;
+}
+
+.link {
+    font-weight: bold;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-bottom 0.3s ease;
 }
 
 .link:hover {
-    text-decoration: underline;
+    border-bottom: 1px solid #fff;
     cursor: pointer;
 }
-
 
 .result_item::before {
     content: "→";

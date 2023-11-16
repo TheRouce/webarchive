@@ -1,47 +1,113 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>WebArchive</title>
-    <link rel="stylesheet" href="/static/style.css">
-    <script src="/static/lib.js"></script>
-    <script src="/static/main.js"></script>
-</head>
-<body>
-<template id="pages_tmpl">
-    <div class="page_item">
-        <a class="url link"><span class="title"></span><span class="status"></span></a>
-        <div class="description"></div>
-        <div class="created"></div>
-        <hr>
-    </div>
-</template>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>WebArchive</title>
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/static/style.css">
+        <script src="/static/lib.js"></script>
+        <script src="/static/main.js"></script>
+    </head>
+    <body class="bg-gray-900 text-white p-8">
 
-<template id="page_tmpl">
-    <a onclick="history.back()" class="link">Back</a>
-    <div class="page">
-        <h2 id="page_title"></h2>
-        <h3 id="page_description"></h3>
-        <h5 id="page_url" class="link" onclick="window.open(this.innerHTML, '_blank')"></h5>
-        <h4>Results</h4>
-        <div id="results"></div>
-    </div>
-</template>
+        <template id="pages_tmpl">
+            <div id="page_item" class="border-l-4 mb-2 page_item mx-auto bg-gray-700 p-4 rounded-md shadow-2xl">
+                <a class="url link">
+                    <span class="text-lg title"></span>
+                    <span class="status"></span>
+                </a>
+                <div class="description"></div>
+                <div class="created"></div>
+                <hr>
+            </div>
+        </template>
 
-<template id="result_tmpl">
-    <div class="result_item">
-        <span class="format"></span>
-        <span class="result_link link"></span>
-    </div>
-</template>
+        <template id="page_tmpl">
+            <button onclick="history.back()" class="bg-blue-500 text-white font-bold py-2 px-4 pr-8 pl-8 rounded focus:outline-none focus:shadow-outline-blue active:bg-blue-700 hover:bg-blue-600">Back</button>
+            <div class="page p-4">
+                <h2 id="page_title" class="text-2xl font-bold mb-2"></h2>
+                <h3 id="page_description" class="text-lg mb-4"></h3>
+                <h5 id="page_url" class="text-blue-500 hover:underline cursor-pointer" onclick="window.open(this.innerHTML, '_blank')"></h5>
+                <h4 class="text-lg font-bold mt-4 mb-2">Results</h4>
+                <div id="results" class="mb-4"></div>
+            </div>
+        </template>
 
-<h1 id="site_title"></h1>
+        <template id="result_tmpl">
+            <div class="result_item">
+                <span class="format"></span>
+                <span class="result_link link"></span>
+            </div>
+        </template>
 
-<div id="data">
-    None
-</div>
-</body>
+        <h1 id="site_title" class="text-4xl font-bold mb-8"></h1>
+
+        <form id="submitForm" action="/api/v1/pages" method="post" onsubmit="submitForm(event)" class="mb-8 mx-auto bg-gray-800 p-6 rounded-md">
+
+            <label for="url" class="block mb-2">URL:</label>
+            <input type="text" id="url" name="url" required class="w-full p-2 bg-gray-700 text-white rounded-md">
+            <span id="urlError" class="text-red-500"></span>
+            <br>
+
+            <label class="block mb-2">Formats:</label>
+            <div class="flex">
+                <input type="checkbox" id="pdf" name="formats" value="pdf" checked class="mr-2">
+                <label for="pdf">PDF</label>
+
+                <input type="checkbox" id="headers" name="formats" value="headers" checked class="mx-2">
+                <label for="headers">Headers</label>
+
+                <input type="checkbox" id="single_file" name="formats" value="single_file" checked class="ml-2">
+                <label class="ml-2" for="single_file">Single File</label>
+            </div>
+            <br>
+
+            <input type="submit" value="Submit" class="w-full cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        </form>
+
+        <script>
+            function submitForm(event) {
+                event.preventDefault();
+
+                const form = document.getElementById('submitForm');
+                const urlInput = document.getElementById('url');
+                const urlError = document.getElementById('urlError');
+
+                const urlValue = urlInput.value.trim();
+                if (!(urlValue.startsWith('https://') || urlValue.startsWith('http://'))) {
+                    urlError.textContent = 'URL must start with "https://" or "http://"';
+                    return;
+                } else {
+                    urlError.textContent = '';
+                }
+
+                const formData = new FormData(form);
+
+                const selectedFormats = Array.from(formData.getAll('formats'));
+
+                const data = {
+                    url: urlValue,
+                    formats: selectedFormats
+                };
+
+                fetch(form.action, {
+                    method: form.method,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then(response => response.json()).then(data => {
+                    console.log(data);
+                }).catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        </script>
+
+        <div class="mb-8 mx-auto bg-gray-800 p-2 rounded-md" id="data">
+            None
+        </div>
+    </body>
 </html>
-
