@@ -13,12 +13,12 @@
     <body class="bg-gray-900 text-white p-8">
 
         <template id="pages_tmpl">
-            <div id="page_item" class="border-l-4 mb-2 page_item mx-auto bg-gray-700 p-4 rounded-md shadow-2xl">
-                <a class="url link">
+            <div id="page_item" class="page_item w-full border-l-4 mx-auto bg-gray-700 p-4 rounded-md shadow-2xl shadow-gray-700/50 hover:shadow-white">
+                    <a class="url link">
                     <span class="text-lg title"></span>
                     <span class="status"></span>
                 </a>
-                <div class="description"></div>
+                <div class="description line-clamp-3"></div>
                 <div class="created"></div>
                 <hr>
             </div>
@@ -26,12 +26,12 @@
 
         <template id="page_tmpl">
             <button onclick="history.back()" class="bg-blue-500 text-white font-bold py-2 px-4 pr-8 pl-8 rounded focus:outline-none focus:shadow-outline-blue active:bg-blue-700 hover:bg-blue-600">Back</button>
-            <div class="page p-4">
+            <div class="page">
                 <h2 id="page_title" class="text-2xl font-bold mb-2"></h2>
-                <h3 id="page_description" class="text-lg mb-4"></h3>
+                <h3 id="page_description" class="pl-4 text-lg mb-2"></h3>
                 <h5 id="page_url" class="text-blue-500 hover:underline cursor-pointer" onclick="window.open(this.innerHTML, '_blank')"></h5>
                 <h4 class="text-lg font-bold mt-4 mb-2">Results</h4>
-                <div id="results" class="mb-4"></div>
+                <div id="results"></div>
             </div>
         </template>
 
@@ -44,14 +44,14 @@
 
         <h1 id="site_title" class="text-4xl font-bold mb-8"></h1>
 
-        <form id="submitForm" action="/api/v1/pages" method="post" onsubmit="submitForm(event)" class="mb-8 mx-auto bg-gray-800 p-6 rounded-md">
+        <form id="submitForm" action="/api/v1/pages" method="post" onsubmit="submitForm(event)" class="mb-6 mx-auto bg-gray-800 p-4 rounded-md">
 
             <label for="url" class="block mb-2">URL:</label>
-            <input type="text" id="url" name="url" required class="w-full p-2 bg-gray-700 text-white rounded-md">
+            <input type="text" id="url" name="url" required class="w-full p-2 bg-gray-700 text-white rounded-md" autofocus>
             <span id="urlError" class="text-red-500"></span>
             <br>
 
-            <label class="block mb-2">Formats:</label>
+            <label class="block mt-4 mb-2">Formats:</label>
             <div class="flex">
                 <input type="checkbox" id="pdf" name="formats" value="pdf" checked class="mr-2">
                 <label for="pdf">PDF</label>
@@ -106,7 +106,7 @@
             }
         </script>
 
-        <div class="mb-8 mx-auto bg-gray-800 p-2 rounded-md" id="data">
+        <div class="grid grid-cols-1 gap-4 mb-8 mx-auto bg-gray-800 p-4 rounded-md" id="data">
             None
         </div>
     </body>
