@@ -1,47 +1,9 @@
-.status {
-    display: inline-block;
-    padding: 8px;
-    margin-left: 5px;
-}
-
-.created {
-    font-size: 70%;
-}
-
-.title {
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.link {
-    font-weight: bold;
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-bottom 0.3s ease;
-}
-
-.link:hover {
-    border-bottom: 1px solid #fff;
-    cursor: pointer;
-}
-
 .result_item::before {
     content: "→";
 }
 
 .result_item::after {
     content: "";
-}
-
-.result_item {
-    width: 300px;
-    border-bottom: 1px black solid;
-}
-
-.format {
-    font-weight: bold;
-    width: 100px;
-    display: inline-block;
 }
 
 .done {
