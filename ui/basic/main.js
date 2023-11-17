@@ -16,6 +16,7 @@ function index() {
         $(page_elem).find(".url").attr("onclick", "goToPage('" + v.id + "');");
         $(page_elem).find(".status").addClass(v.status);
         $(page_elem).find(".status").attr("title", v.status);
+        $(page_elem).find("#page_item").addClass(v.status); 
         $(page_elem).find(".created").html(v.created);
         $(page_elem).find(".title").html(v.meta.title);
         $(page_elem).find(".description").html(v.meta.description);
